@@ -22,6 +22,7 @@ module.exports = {
     //模块：例如解读css，图片如何转换，压缩等功能
     module: {
         rules: [
+            //加载css
             {
                 //用于匹配处理文件的扩展名的正则表达式（必填）
                 test: /\.css$/,
@@ -47,6 +48,21 @@ module.exports = {
                 //提供额外的设置选项（可选）
                 // query:{},
 
+            },
+            //加载图片
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                    {
+                        //url-loader已经封装了file-loader
+                        loader: 'url-loader',
+                        options: {
+                            //把小于limit(B)的文件，打包成Base64的格式（DataURL），并写入js中
+                            //把大于limit(B)的文件，调用file-loader，生成图片文件，并在js中引入其路径
+                            limit: 8000,
+                        },
+                    }
+                ]
             }
         ]
     },

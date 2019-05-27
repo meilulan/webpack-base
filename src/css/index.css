@@ -1,3 +1,9 @@
 body {
     color: rgb(0, 0, 0);
 }
+
+#bkImg {
+    background: url(../imgs/test1.jpg) no-repeat;
+    width: 959px;
+    height: 959px;
+}
