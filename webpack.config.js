@@ -4,21 +4,35 @@ const path = require('path');
 const uglify = require('uglifyjs-webpack-plugin')
 //引入html的打包工具（需要 npm install）
 const htmlPlugin = require('html-webpack-plugin')
+//引入分离工具
+const extractTextPlugin = require('extract-text-webpack-plugin');
+
+var website = {
+    publicPath: "http://localhost:8880/",
+}
 
 module.exports = {
+
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
     entry: {
         entry: './src/entery.js',//属性名可以自定义
         // entry2:'....',//其他入口
     },
+
     //出口文件 配置项：2.X版本后，支持多出口
     output: {
+
         //打包的路径
         path: path.resolve(__dirname, 'dist'),//获取项目的绝对路径
+
         //打包的文件名称
         filename: "bundle.js",
         // filename:[name].js,//多出口文件时的配置，意思是入口文件是什么名称，生成的出口文件就是什么名称
+
+        //主要是处理静态文件路径问题，将根目录的绝对路径写入
+        publicPath: website.publicPath,
     },
+
     //模块：例如解读css，图片如何转换，压缩等功能
     module: {
         rules: [
@@ -26,10 +40,11 @@ module.exports = {
             {
                 //用于匹配处理文件的扩展名的正则表达式（必填）
                 test: /\.css$/,
+
                 //使用到的loader名（必填）
                 //四种写法：
                 //1.
-                use: ['style-loader', 'css-loader'],
+                // use: ['style-loader', 'css-loader'],
                 //2.
                 // loader: "style-loader",
                 //3.
@@ -43,12 +58,26 @@ module.exports = {
                 //         loader: 'css-loader'
                 //     }
                 // ]
+
+                //若需要用到 文件分离工具 分离css到不同的目录中，则进行下述配置
+                use: extractTextPlugin.extract(
+                    {
+                        //需要用什么样的loader去编译文件
+                        use: "css-loader",
+                        //编译后用什么loader来提取文件
+                        fallback: "style-loader",
+                        //用来覆盖项目路径，生成该文件路径
+                        // publicfile:'',
+                    }
+                ),
+
                 //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
                 // include/exclude:['',''],
+
                 //提供额外的设置选项（可选）
                 // query:{},
-
             },
+
             //加载图片
             {
                 test: /\.(png|jpg|gif)$/,
@@ -66,9 +95,10 @@ module.exports = {
             }
         ]
     },
+
     //插件：根据需求配置，用于生产模板和各项功能
     plugins: [
-        //实例化压缩工具，只适用于生产环境，开发环境屏蔽掉
+        //实例化 压缩工具，只适用于生产环境，开发环境屏蔽掉
         // new uglify(),
 
         //实例化 html 的打包工具
@@ -85,7 +115,13 @@ module.exports = {
                 collapseWhitespace: true,
             },
         }),
+
+        //实例化 分离工具，填写的是分离后的路径
+        new extractTextPlugin({
+            filename: '/css/index.css'
+        }),
     ],
+
     //配置webpack开发服务功能
     devServer: {
         hot: true,
