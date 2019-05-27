@@ -1,7 +1,9 @@
 //引入path
 const path = require('path');
-//引入压缩工具
+//引入压缩工具（不需要 npm install）
 const uglify = require('uglifyjs-webpack-plugin')
+//引入html的打包工具（需要 npm install）
+const htmlPlugin = require('html-webpack-plugin')
 
 module.exports = {
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
@@ -52,6 +54,21 @@ module.exports = {
     plugins: [
         //实例化压缩工具，只适用于生产环境，开发环境屏蔽掉
         // new uglify(),
+
+        //实例化 html 的打包工具
+        new htmlPlugin({
+            //要打包的html模板路径和文件名
+            template: './src/index.html',
+            //是否取消缓存，自动的在js文件后面带上hash串
+            hash: true,
+            //对html文件进行压缩，更多属性：https://github.com/kangax/html-minifier#options-quick-reference
+            minify: {
+                //去掉标签属性的双引号
+                removeAttributeQuotes: true,
+                //去掉空格，包括回车
+                collapseWhitespace: true,
+            },
+        }),
     ],
     //配置webpack开发服务功能
     devServer: {
