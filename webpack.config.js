@@ -22,10 +22,22 @@ module.exports = {
                 //用于匹配处理文件的扩展名的正则表达式（必填）
                 test: /\.css$/,
                 //使用到的loader名（必填）
+                //四种写法：
+                //1.
+                use: ['style-loader', 'css-loader'],
+                //2.
+                loader: "style-loader",
+                //3.
+                loader: ["style-loader", "css-loader"],
+                //4.
                 use: [
-                    'style-loader',
-                    'css-loader'
-                ],
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
                 //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
                 // include/exclude:['',''],
                 //提供额外的设置选项（可选）
