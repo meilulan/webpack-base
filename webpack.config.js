@@ -50,8 +50,8 @@ module.exports = {
     },
     //插件：根据需求配置，用于生产模板和各项功能
     plugins: [
-        //实例化压缩工具
-        new uglify(),
+        //实例化压缩工具，只适用于生产环境，开发环境屏蔽掉
+        // new uglify(),
     ],
     //配置webpack开发服务功能
     devServer: {
