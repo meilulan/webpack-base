@@ -1,5 +1,7 @@
 //引入path
 const path = require('path');
+//引入压缩工具
+const uglify = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
@@ -26,18 +28,18 @@ module.exports = {
                 //1.
                 use: ['style-loader', 'css-loader'],
                 //2.
-                loader: "style-loader",
+                // loader: "style-loader",
                 //3.
-                loader: ["style-loader", "css-loader"],
+                // loader: ["style-loader", "css-loader"],
                 //4.
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader'
-                    }
-                ]
+                // use: [
+                //     {
+                //         loader: 'style-loader'
+                //     },
+                //     {
+                //         loader: 'css-loader'
+                //     }
+                // ]
                 //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
                 // include/exclude:['',''],
                 //提供额外的设置选项（可选）
@@ -47,7 +49,10 @@ module.exports = {
         ]
     },
     //插件：根据需求配置，用于生产模板和各项功能
-    plugins: [],
+    plugins: [
+        //实例化压缩工具
+        new uglify(),
+    ],
     //配置webpack开发服务功能
     devServer: {
         hot: true,
