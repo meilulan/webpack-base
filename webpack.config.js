@@ -16,7 +16,24 @@ module.exports = {
         // filename:[name].js,//多出口文件时的配置，意思是入口文件是什么名称，生成的出口文件就是什么名称
     },
     //模块：例如解读css，图片如何转换，压缩等功能
-    module: {},
+    module: {
+        rules: [
+            {
+                //用于匹配处理文件的扩展名的正则表达式（必填）
+                test: /\.css$/,
+                //使用到的loader名（必填）
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ],
+                //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
+                // include/exclude:['',''],
+                //提供额外的设置选项（可选）
+                // query:{},
+
+            }
+        ]
+    },
     //插件：根据需求配置，用于生产模板和各项功能
     plugins: [],
     //配置webpack开发服务功能
