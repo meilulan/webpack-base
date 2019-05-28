@@ -6,4 +6,5 @@ body {
     background: url(../imgs/test1.jpg) no-repeat;
     width: 959px;
     height: 959px;
+    transform: rotate(120deg);
 }
