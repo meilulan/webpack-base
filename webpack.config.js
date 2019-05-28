@@ -1,9 +1,10 @@
 //引入path
 const path = require('path');
+const webpack = require('webpack');
 //引入压缩工具（不需要 npm install）
 const uglify = require('uglifyjs-webpack-plugin')
 //引入html的打包工具（需要 npm install）
-const htmlPlugin = require('html-webpack-plugin')
+const htmlWebpackPlugin = require('html-webpack-plugin')
 //引入分离工具
 const extractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -50,26 +51,27 @@ module.exports = {
                 //3.
                 // loader: ["style-loader", "css-loader"],
                 //4.
-                // use: [
-                //     {
-                //         loader: 'style-loader'
-                //     },
-                //     {
-                //         loader: 'css-loader'
-                //     }
-                // ]
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
 
                 //若需要用到 文件分离工具 分离css到不同的目录中，则进行下述配置
-                use: extractTextPlugin.extract(
-                    {
-                        //需要用什么样的loader去编译文件
-                        use: "css-loader",
-                        //编译后用什么loader来提取文件
-                        fallback: "style-loader",
-                        //用来覆盖项目路径，生成该文件路径
-                        // publicfile:'',
-                    }
-                ),
+                //注：该组件不支持热更新
+                // use: extractTextPlugin.extract(
+                //     {
+                //         //需要用什么样的loader去编译文件
+                //         use: "css-loader",
+                //         //编译后用什么loader来提取文件
+                //         fallback: "style-loader",
+                //         //用来覆盖项目路径，生成该文件路径
+                //         // publicfile:'',
+                //     }
+                // ),
 
                 //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
                 // include/exclude:['',''],
@@ -89,9 +91,17 @@ module.exports = {
                             //把小于limit(B)的文件，打包成Base64的格式（DataURL），并写入js中
                             //把大于limit(B)的文件，调用file-loader，生成图片文件，并在js中引入其路径
                             limit: 8000,
+                            //将图片打包到指定的文件夹下
+                            outputPath: 'images/'
                         },
                     }
                 ]
+            },
+
+            //打包html中的img图片
+            {
+                test: /\.(htm|html)$/,
+                use: ['html-withimg-loader']
             }
         ]
     },
@@ -102,11 +112,12 @@ module.exports = {
         // new uglify(),
 
         //实例化 html 的打包工具
-        new htmlPlugin({
+        new htmlWebpackPlugin({
             //要打包的html模板路径和文件名
             template: './src/index.html',
             //是否取消缓存，自动的在js文件后面带上hash串
             hash: true,
+            inject: true,
             //对html文件进行压缩，更多属性：https://github.com/kangax/html-minifier#options-quick-reference
             minify: {
                 //去掉标签属性的双引号
@@ -118,14 +129,14 @@ module.exports = {
 
         //实例化 分离工具，填写的是分离后的路径
         new extractTextPlugin({
-            filename: '/css/index.css'
+            filename: 'css/index.css'
         }),
     ],
 
     //配置webpack开发服务功能
     devServer: {
         hot: true,
-        // inline:true,//添加为 inline模式的 热模块替换，默认为 iframe模式的 热模块替换
+        inline: true,//添加为 inline模式的 热模块替换，默认为 iframe模式的 热模块替换
         //配置服务器基本运行路径，用于找到程序打包地址
         contentBase: path.resolve(__dirname, 'dist'),
         //服务器的IP地址，可以使用localhost
