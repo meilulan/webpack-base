@@ -42,7 +42,7 @@ module.exports = {
                 //用于匹配处理文件的扩展名的正则表达式（必填）
                 test: /\.css$/,
 
-                //使用到的loader名（必填）
+                //使用到的loader名，加载顺序不能颠倒（webpack是自下而上解析）（必填）
                 //四种写法：
                 //1.
                 // use: ['style-loader', 'css-loader'],
@@ -51,27 +51,27 @@ module.exports = {
                 //3.
                 // loader: ["style-loader", "css-loader"],
                 //4.
-                use: [
+                /* use: [
                     {
                         loader: 'style-loader'
                     },
                     {
                         loader: 'css-loader'
                     }
-                ]
+                ] */
 
                 //若需要用到 文件分离工具 分离css到不同的目录中，则进行下述配置
                 //注：该组件不支持热更新
-                // use: extractTextPlugin.extract(
-                //     {
-                //         //需要用什么样的loader去编译文件
-                //         use: "css-loader",
-                //         //编译后用什么loader来提取文件
-                //         fallback: "style-loader",
-                //         //用来覆盖项目路径，生成该文件路径
-                //         // publicfile:'',
-                //     }
-                // ),
+                use: extractTextPlugin.extract(
+                    {
+                        //需要用什么样的loader去编译文件
+                        use: "css-loader",
+                        //编译后用什么loader来提取文件
+                        fallback: "style-loader",
+                        //用来覆盖项目路径，生成该文件路径
+                        // publicfile:'',
+                    }
+                ),
 
                 //手动添加必须处理 或 屏蔽不需要处理的文件（可选）
                 // include/exclude:['',''],
@@ -102,7 +102,39 @@ module.exports = {
             {
                 test: /\.(htm|html)$/,
                 use: ['html-withimg-loader']
-            }
+            },
+
+            //处理scss文件
+            {
+                test: /\.scss$/,
+
+                //开发环境
+                /* use: [
+                    //顺序不能颠倒
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    },
+                ], */
+
+                //生产环境
+                use: extractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'sass-loader'
+                        }
+                    ],
+                    fallback: 'style-loader',
+                }),
+            },
         ]
     },
 
