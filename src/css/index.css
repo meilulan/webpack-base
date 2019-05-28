@@ -8,3 +8,7 @@ body {
     height: 959px;
     transform: rotate(120deg);
 }
+
+.bk-color {
+    background-color: blue;
+}

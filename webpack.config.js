@@ -1,3 +1,5 @@
+//需要同步检查html模板，所以需要引入node的glob对象
+const glob = require('glob');
 //引入path
 const path = require('path');
 const webpack = require('webpack');
@@ -7,6 +9,8 @@ const uglify = require('uglifyjs-webpack-plugin')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 //引入分离工具
 const extractTextPlugin = require('extract-text-webpack-plugin');
+//引入净化css工具
+const purifyCSSPlugin = require('purifycss-webpack');
 
 var website = {
     publicPath: "http://localhost:8880/",
@@ -166,6 +170,12 @@ module.exports = {
         //实例化 分离工具，填写的是分离后的路径
         new extractTextPlugin({
             filename: 'css/index.css'
+        }),
+
+        //实例化 净化工具，该插件必须配合extract-text-webpack-plugin插件使用
+        new purifyCSSPlugin({
+            //主要是需找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了
+            paths: glob.sync(path.join(__dirname, 'src/*.html')),
         }),
     ],
 
