@@ -17,6 +17,14 @@ var website = {
 }
 
 module.exports = {
+    //配置调试模式
+    // devtool:false,//打包后的代码（生产环境）
+    // devtool: 'source-map',//原始源代码（生产环境，单独map文件）
+    // devtool:'cheap-module-source-map',//原始源代码（仅限行，开发环境，单独map文件）
+    // devtool:'eval-source-map',//原始源代码（开发环境，打包后的文件里）
+    devtool: 'cheap-module-eval-source-map',//原始源代码（仅限行，开发环境，打包后的文件里）
+    // devtool:'inline-source-map',//原始源代码（开发环境，以dataURL写入打包后的文件里）
+    // devtool:'inline-source-map',//原始源代码（开发环境，以dataURL写入打包后的文件里）
 
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
     entry: {
