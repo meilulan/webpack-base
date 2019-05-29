@@ -11,6 +11,8 @@ const htmlWebpackPlugin = require('html-webpack-plugin')
 const extractTextPlugin = require('extract-text-webpack-plugin');
 //引入净化css工具
 const purifyCSSPlugin = require('purifycss-webpack');
+//引入模块化文件
+const moduleEntry = require('./build/webpack.entry');
 
 let buildType = process.env.type;
 console.log(buildType)
@@ -32,10 +34,12 @@ module.exports = {
     // devtool:'inline-cheap-module-source-map',//原始源代码（仅限行，开发环境，以dataURL写入打包后的文件里）
 
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
-    entry: {
+    /* entry: {
         entry: './src/entery.js',//属性名可以自定义
         // entry2:'....',//其他入口
-    },
+    }, */
+    //模块化测试
+    entry: moduleEntry,
 
     //出口文件 配置项：2.X版本后，支持多出口
     output: {
