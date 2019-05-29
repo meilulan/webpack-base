@@ -143,6 +143,16 @@ module.exports = {
                     fallback: 'style-loader',
                 }),
             },
+
+            //配置babel
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader'
+                },
+                exclude: __dirname + 'node_modules',
+                include: __dirname + 'src',
+            },
         ]
     },
 
