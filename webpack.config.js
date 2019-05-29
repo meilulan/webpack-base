@@ -204,6 +204,11 @@ module.exports = {
             //主要是需找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了
             paths: glob.sync(path.join(__dirname, 'src/*.html')),
         }),
+
+        //引入第三方类库：方式二
+        new webpack.ProvidePlugin({
+            $: "jquery"
+        }),
     ],
 
     //配置webpack开发服务功能
