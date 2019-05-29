@@ -24,7 +24,7 @@ module.exports = {
     // devtool:'eval-source-map',//原始源代码（开发环境，打包后的文件里）
     devtool: 'cheap-module-eval-source-map',//原始源代码（仅限行，开发环境，打包后的文件里）
     // devtool:'inline-source-map',//原始源代码（开发环境，以dataURL写入打包后的文件里）
-    // devtool:'inline-source-map',//原始源代码（开发环境，以dataURL写入打包后的文件里）
+    // devtool:'inline-cheap-module-source-map',//原始源代码（仅限行，开发环境，以dataURL写入打包后的文件里）
 
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
     entry: {
