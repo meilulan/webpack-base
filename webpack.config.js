@@ -12,8 +12,13 @@ const extractTextPlugin = require('extract-text-webpack-plugin');
 //引入净化css工具
 const purifyCSSPlugin = require('purifycss-webpack');
 
-var website = {
-    publicPath: "http://localhost:8880/",
+let buildType = process.env.type;
+console.log(buildType)
+var website = { publicPath: "" };
+if (buildType == "dev") {
+    website.publicPath = "http://localhost:8880/";
+} else if (buildType == "prod") {
+    website.publicPath = "http://meilulan:8880/";
 }
 
 module.exports = {
