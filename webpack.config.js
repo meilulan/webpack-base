@@ -13,6 +13,8 @@ const extractTextPlugin = require('extract-text-webpack-plugin');
 const purifyCSSPlugin = require('purifycss-webpack');
 //引入模块化文件
 const moduleEntry = require('./build/webpack.entry');
+//静态资源集中输出
+const copyPlugin = require('copy-webpack-plugin');
 
 let buildType = process.env.type;
 console.log(buildType)
@@ -226,6 +228,14 @@ module.exports = {
             //最小打包的文件模块数，一般是大于等于2
             minChunks: 2
         }),
+
+        //静态资源集中输出
+        new copyPlugin([
+            {
+                from: __dirname + '/src/static',
+                to: './static'
+            }
+        ]),
     ],
 
     //配置webpack开发服务功能
