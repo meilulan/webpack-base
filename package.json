@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "inline-server": "webpack-dev-server --inline --hot --progress",
+    "inline-server": "webpack-dev-server --inline --progress",
     "iframe-server": "webpack-dev-server --hot",
     "build-prod": "set type=prod&webpack",
     "build-dev": "set type=dev&webpack"

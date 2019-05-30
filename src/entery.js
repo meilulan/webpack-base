@@ -4,11 +4,11 @@ import scss from './css/black.scss'
 // import $ from 'jquery'
 
 let aaa = "meimeimei";
-document.getElementById('title').innerHTML = 'Hi 741';
+document.getElementById('title').innerHTML = 'Hi 963';
 
 //调试devtool
 // console.log(88 / 0);
 // console.log(a);
 
 //引入第三方类库：测试
-$("#title").html("我是第三方类库：jQuery");
+$("#title").html("我是第三方类库：jQuery1232");

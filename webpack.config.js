@@ -182,6 +182,9 @@ module.exports = {
 
     //插件：根据需求配置，用于生产模板和各项功能
     plugins: [
+        //html热更新
+        new webpack.HotModuleReplacementPlugin(),
+
         //实例化 压缩工具，只适用于生产环境，开发环境屏蔽掉
         // new uglify(),
 
@@ -232,7 +235,9 @@ module.exports = {
         //静态资源集中输出
         new copyPlugin([
             {
+                //从项目的哪个文件夹中提取
                 from: __dirname + '/src/static',
+                //复制到打包后的哪个文件夹（dist）
                 to: './static'
             }
         ]),
@@ -240,7 +245,7 @@ module.exports = {
 
     //配置webpack开发服务功能
     devServer: {
-        hot: true,
+        // hot: true,//更新html文件，需要关闭hot，命令中也要删除--hot
         inline: true,//添加为 inline模式的 热模块替换，默认为 iframe模式的 热模块替换
         //配置服务器基本运行路径，用于找到程序打包地址
         contentBase: path.resolve(__dirname, 'dist'),
