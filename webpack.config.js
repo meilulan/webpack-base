@@ -34,12 +34,17 @@ module.exports = {
     // devtool:'inline-cheap-module-source-map',//原始源代码（仅限行，开发环境，以dataURL写入打包后的文件里）
 
     //入口文件 配置项：可以是单一入口，也可以是多入口，一般是js文件（也可以是css）
-    /* entry: {
+    entry: {
         entry: './src/entery.js',//属性名可以自定义
         // entry2:'....',//其他入口
-    }, */
+
+        //优化：引入需抽离的类库
+        jq: 'jquery',
+        vue: 'vue',
+
+    },
     //模块化测试
-    entry: moduleEntry,
+    // entry: moduleEntry,
 
     //出口文件 配置项：2.X版本后，支持多出口
     output: {
@@ -208,6 +213,18 @@ module.exports = {
         //引入第三方类库：方式二
         new webpack.ProvidePlugin({
             $: "jquery"
+        }),
+
+        //优化：引入插件
+        new webpack.optimize.CommonsChunkPlugin({
+            //name对应入口文件中的名字
+            // name: 'jquery',
+            name: ['jq', 'vue'],//多文件
+            //把文件打包到哪里，指明路径和文件名
+            // filename: 'assests/js/jquery.min.js',
+            filename: 'assests/js/[name].js',//多文件
+            //最小打包的文件模块数，一般是大于等于2
+            minChunks: 2
         }),
     ],
 
