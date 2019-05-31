@@ -25,13 +25,17 @@ if (buildType == "dev") {
     website.publicPath = "http://meilulan:8880/";
 }
 
+function resolve(dir) {
+    return path.join(__dirname, '..', dir);
+}
+
 module.exports = {
     //配置调试模式
     // devtool:false,//打包后的代码（生产环境）
     // devtool: 'source-map',//原始源代码（生产环境，单独map文件）
     // devtool:'cheap-module-source-map',//原始源代码（仅限行，开发环境，单独map文件）
     // devtool:'eval-source-map',//原始源代码（开发环境，打包后的文件里）
-    devtool: 'cheap-module-eval-source-map',//原始源代码（仅限行，开发环境，打包后的文件里）
+    // devtool: 'cheap-module-eval-source-map',//原始源代码（仅限行，开发环境，打包后的文件里）
     // devtool:'inline-source-map',//原始源代码（开发环境，以dataURL写入打包后的文件里）
     // devtool:'inline-cheap-module-source-map',//原始源代码（仅限行，开发环境，以dataURL写入打包后的文件里）
 
@@ -65,6 +69,16 @@ module.exports = {
     //模块：例如解读css，图片如何转换，压缩等功能
     module: {
         rules: [
+            //配置babel
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader'
+                },
+                include: [resolve('src')]
+                // exclude: __dirname + 'node_modules',
+                // include: __dirname + 'src',
+            },
             //加载css
             {
                 //用于匹配处理文件的扩展名的正则表达式（必填）
@@ -168,15 +182,6 @@ module.exports = {
                 }),
             },
 
-            //配置babel
-            {
-                test: /\.js$/,
-                use: {
-                    loader: 'babel-loader'
-                },
-                exclude: __dirname + 'node_modules',
-                include: __dirname + 'src',
-            },
         ]
     },
 
