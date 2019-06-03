@@ -60,6 +60,7 @@ module.exports = {
 
         //打包的文件名称
         filename: "bundle.js",
+        // filename: "bundle.[hash:15].js",
         // filename:[name].js,//多出口文件时的配置，意思是入口文件是什么名称，生成的出口文件就是什么名称
 
         //主要是处理静态文件路径问题，将根目录的绝对路径写入
